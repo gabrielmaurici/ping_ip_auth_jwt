@@ -12,7 +12,7 @@ namespace Ping.Ip.Web.Controllers
     [Route("api/[controller]")]
     [Authorize]
     public class PingIpController : ControllerBase
-    {  
+    {
         //[HttpGet]
         //public IEnumerable<WeatherForecast> Get()
         //{
