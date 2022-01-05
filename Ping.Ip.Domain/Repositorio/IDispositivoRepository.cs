@@ -1,8 +1,5 @@
 ﻿using Ping.Ip.Domain.Domain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ping.Ip.Domain
@@ -11,5 +8,6 @@ namespace Ping.Ip.Domain
     {
         Task InserirDispositivo(Dispositivo model);
         Task<List<Dispositivo>> ListarDispositivos();
+        Task<bool> ObterDispositivoPorIp(string ip);
     }
 }

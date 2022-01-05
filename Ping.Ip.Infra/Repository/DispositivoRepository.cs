@@ -4,8 +4,6 @@ using Ping.Ip.Infra.Context;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ping.Ip.Infra.Repository
@@ -22,9 +20,19 @@ namespace Ping.Ip.Infra.Repository
 
         public async Task<List<Dispositivo>> ListarDispositivos()
         {
+                using (var context = new DispositivosContext())
+                {
+                    return await context.Dispositivos.ToListAsync();
+                }
+        }
+
+        public async Task<bool> ObterDispositivoPorIp(string ip)
+        {
             using (var context = new DispositivosContext())
             {
-                return await context.Dispositivos.ToListAsync();
+                var dispositivo = await context.Dispositivos.FirstOrDefaultAsync(x => x.Ip.Equals(ip));
+
+                return dispositivo == null;
             }
         }
     }

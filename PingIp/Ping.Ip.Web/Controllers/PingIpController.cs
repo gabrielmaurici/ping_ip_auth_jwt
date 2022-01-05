@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Ping.Ip.App.Interface;
+using Ping.Ip.Domain;
+using Ping.Ip.Domain.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +15,69 @@ namespace Ping.Ip.Web.Controllers
     [Authorize]
     public class PingIpController : ControllerBase
     {
-        //[HttpGet]
-        //public IEnumerable<WeatherForecast> Get()
-        //{
-        //    var rng = new Random();
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        Date = DateTime.Now.AddDays(index),
-        //        TemperatureC = rng.Next(-20, 55),
-        //        Summary = Summaries[rng.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
+        private readonly IDispositivoRepository _dispositivoRepository;
+        private readonly IDispositivoService _dispositivoService;
+
+        public PingIpController(IDispositivoRepository dispositivoRepository, IDispositivoService dispositivoService)
+        {
+            _dispositivoRepository = dispositivoRepository;
+            _dispositivoService = dispositivoService;
+        }
+
+        [HttpPost]
+        [Route("InserirDispositivo")]
+        public async Task<ActionResult> InserirDispositivo([FromBody] DispositivoDto model)
+        {
+            try
+            {
+                var retorno = await _dispositivoService.InserirDispositivo(model);
+
+                if(retorno.Ip != null)
+                    return Ok(retorno);
+
+                return Conflict(retorno);
+
+            } catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("ListarDispositivos")]
+        public async Task<ActionResult> ListarDispositivos()
+        {
+            try
+            {
+                var retorno = await _dispositivoRepository.ListarDispositivos();
+                if (retorno.Count > 0)
+                    return Ok(retorno);
+
+                return Ok("Não existem dispositivos cadastrados.");
+
+            } catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("ObterStatusDispositivos")]
+        public async Task<ActionResult> ObterStatusDispositivos()
+        {
+            try
+            {
+                var retorno = await _dispositivoService.ObterStatusDispositivos();
+
+                if(retorno.Count > 0)
+                    return Ok(retorno);
+
+                return Ok("Não existem dispositivos cadastrados.");
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }

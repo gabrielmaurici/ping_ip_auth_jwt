@@ -17,9 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PingIp", "PingIp", "{5AC04D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Web", "PingIp\Ping.Ip.Web\Ping.Ip.Web.csproj", "{0096B658-CD84-47F3-B6AF-AF96F87D0ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.Domain", "Ping.Ip.Domain\Ping.Ip.Domain.csproj", "{9D4F580F-CE4B-4D52-AEE6-09EA37E8FC39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Domain", "Ping.Ip.Domain\Ping.Ip.Domain.csproj", "{9D4F580F-CE4B-4D52-AEE6-09EA37E8FC39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.Infra", "Ping.Ip.Infra\Ping.Ip.Infra.csproj", "{D0208595-90B6-48E6-89A3-55A086FE0DBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Infra", "Ping.Ip.Infra\Ping.Ip.Infra.csproj", "{D0208595-90B6-48E6-89A3-55A086FE0DBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.App", "Ping.Ip.App\Ping.Ip.App.csproj", "{29854134-536F-40B3-A0EB-E56EA2941C79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{D0208595-90B6-48E6-89A3-55A086FE0DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0208595-90B6-48E6-89A3-55A086FE0DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0208595-90B6-48E6-89A3-55A086FE0DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29854134-536F-40B3-A0EB-E56EA2941C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29854134-536F-40B3-A0EB-E56EA2941C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29854134-536F-40B3-A0EB-E56EA2941C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29854134-536F-40B3-A0EB-E56EA2941C79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{0096B658-CD84-47F3-B6AF-AF96F87D0ED9} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{9D4F580F-CE4B-4D52-AEE6-09EA37E8FC39} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{D0208595-90B6-48E6-89A3-55A086FE0DBB} = {5AC04D72-43FC-4386-9582-6EE65673D096}
+		{29854134-536F-40B3-A0EB-E56EA2941C79} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F917BFF1-4467-42AE-84EF-49068A1CCDDD}

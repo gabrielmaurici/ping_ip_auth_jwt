@@ -7,13 +7,13 @@ namespace Ping.Ip.Infra.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class CreateDispTable : IMigrationMetadata
+    public sealed partial class CreateTableDisp : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDispTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateTableDisp));
         
         string IMigrationMetadata.Id
         {
-            get { return "202201040119419_CreateDispTable"; }
+            get { return "202201050048350_CreateTableDisp"; }
         }
         
         string IMigrationMetadata.Source

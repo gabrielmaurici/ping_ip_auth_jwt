@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Ping.Ip.Domain.Domain;
-using Ping.Ip.Infra.Context;
+using Ping.Ip.App.Interface;
+using Ping.Ip.App.Service;
+using Ping.Ip.Domain;
+using Ping.Ip.Infra.Repository;
 using System.Text;
 
 namespace Ping.Ip.Web
@@ -24,6 +25,10 @@ namespace Ping.Ip.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDispositivoRepository, DispositivoRepository>();
+            services.AddScoped<IDispositivoService, DispositivoService>();
+
+
             var key = Encoding.ASCII.GetBytes(Configuration["ChavePrivada"]);
             services.AddAuthentication(x =>
             {

@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateDispTable : DbMigration
+    public partial class CreateTableDisp : DbMigration
     {
         public override void Up()
         {

@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Ping.Ip.Domain.Domain
+namespace Ping.Ip.Domain.Dto
 {
-    public class Dispositivo
+    public class RetornaDispositivoDto
     {
-        public int Id { get; set; }
         public Guid Guid { get; set; }
         public string Nome { get; set; }
         public string Ip { get; set; }
+        public string Mensagem { get; set; }
     }
 }
