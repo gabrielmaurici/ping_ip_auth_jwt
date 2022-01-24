@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ping.Ip.App.Interface
+namespace Ping.Ip.Domain.Service
 {
     public interface IDispositivoService
     {

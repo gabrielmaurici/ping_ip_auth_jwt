@@ -1,6 +1,6 @@
-using Auth.Jwt.App.Interface;
 using Auth.Jwt.App.Service;
 using Auth.Jwt.Domain.Repositorio;
+using Auth.Jwt.Domain.Service;
 using Auth.Jwt.Infra;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -51,13 +51,6 @@ namespace Auth.Jwt.Web
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Auth.Jwt.Web", Version = "v1" });
-                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Autenticação baseada em Json Web Token (JWT)",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                }); ;
             });
         }
 

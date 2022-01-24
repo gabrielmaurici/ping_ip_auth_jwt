@@ -1,5 +1,5 @@
-﻿using Auth.Jwt.App.Interface;
-using Auth.Jwt.Domain;
+﻿using Auth.Jwt.Domain;
+using Auth.Jwt.Domain.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Jwt.Web.Controllers

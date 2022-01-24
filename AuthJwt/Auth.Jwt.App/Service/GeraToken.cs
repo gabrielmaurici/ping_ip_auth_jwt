@@ -1,16 +1,13 @@
-﻿using Auth.Jwt.App.Interface;
-using Auth.Jwt.Domain;
+﻿using Auth.Jwt.Domain;
 using Auth.Jwt.Domain.Dto;
 using Auth.Jwt.Domain.Repositorio;
+using Auth.Jwt.Domain.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Auth.Jwt.App.Service
 {

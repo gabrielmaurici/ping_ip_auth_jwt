@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Ping.Ip.App.Interface;
 using Ping.Ip.App.Service;
 using Ping.Ip.Domain;
+using Ping.Ip.Domain.Service;
 using Ping.Ip.Infra.Repository;
 using System.Text;
 
@@ -27,7 +27,6 @@ namespace Ping.Ip.Web
         {
             services.AddScoped<IDispositivoRepository, DispositivoRepository>();
             services.AddScoped<IDispositivoService, DispositivoService>();
-
 
             var key = Encoding.ASCII.GetBytes(Configuration["ChavePrivada"]);
             services.AddAuthentication(x =>
@@ -54,29 +53,28 @@ namespace Ping.Ip.Web
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ping.Ip.Web", Version = "v1" });
 
-                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme {
-                    In = ParameterLocation.Header,
+                var securitySchema = new OpenApiSecurityScheme
+                {
                     Description = "Autenticação baseada em Json Web Token (JWT)",
                     Name = "Authorization",
+                    In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer",
-                    BearerFormat = "JWT"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    Reference = new OpenApiReference
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[]{ }
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
                     }
-                });
+                };
+
+                c.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    { securitySchema, new[] { "Bearer" } }
+                };
+
+                c.AddSecurityRequirement(securityRequirement);
             });
         }
 

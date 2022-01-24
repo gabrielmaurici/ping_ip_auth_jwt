@@ -20,10 +20,10 @@ namespace Ping.Ip.Infra.Repository
 
         public async Task<List<Dispositivo>> ListarDispositivos()
         {
-                using (var context = new DispositivosContext())
-                {
-                    return await context.Dispositivos.ToListAsync();
-                }
+            using (var context = new DispositivosContext())
+            {
+                return await context.Dispositivos.ToListAsync();
+            }
         }
 
         public async Task<bool> ObterDispositivoPorIp(string ip)

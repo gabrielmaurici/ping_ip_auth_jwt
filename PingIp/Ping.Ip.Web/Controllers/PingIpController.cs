@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ping.Ip.App.Interface;
 using Ping.Ip.Domain;
 using Ping.Ip.Domain.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Ping.Ip.Domain.Service;
 using System.Threading.Tasks;
 
 namespace Ping.Ip.Web.Controllers
@@ -15,12 +12,10 @@ namespace Ping.Ip.Web.Controllers
     [Authorize]
     public class PingIpController : ControllerBase
     {
-        private readonly IDispositivoRepository _dispositivoRepository;
         private readonly IDispositivoService _dispositivoService;
 
-        public PingIpController(IDispositivoRepository dispositivoRepository, IDispositivoService dispositivoService)
+        public PingIpController(IDispositivoService dispositivoService)
         {
-            _dispositivoRepository = dispositivoRepository;
             _dispositivoService = dispositivoService;
         }
 
@@ -36,24 +31,6 @@ namespace Ping.Ip.Web.Controllers
                     return Ok(retorno);
 
                 return Conflict(retorno);
-
-            } catch
-            {
-                return StatusCode(500);
-            }
-        }
-
-        [HttpGet]
-        [Route("ListarDispositivos")]
-        public async Task<ActionResult> ListarDispositivos()
-        {
-            try
-            {
-                var retorno = await _dispositivoRepository.ListarDispositivos();
-                if (retorno.Count > 0)
-                    return Ok(retorno);
-
-                return Ok("Não existem dispositivos cadastrados.");
 
             } catch
             {
