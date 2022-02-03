@@ -11,6 +11,7 @@ namespace Ping.Ip.Domain.Dto
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+        public string TipoDispositivo { get; set; }
         public bool Status { get; set; }
     }
 }

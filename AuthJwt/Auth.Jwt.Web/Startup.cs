@@ -47,6 +47,10 @@ namespace Auth.Jwt.Web
                 };
             });
 
+            services.AddCors(options => options.AddDefaultPolicy(
+                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
+            );
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -64,6 +68,8 @@ namespace Auth.Jwt.Web
             }
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

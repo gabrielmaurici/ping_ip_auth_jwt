@@ -39,6 +39,7 @@ namespace Ping.Ip.App.Service
                     {
                         Guid = dispositivo.Guid,
                         Nome = dispositivo.Nome,
+                        TipoDispositivo = dispositivo.TipoDispositivo,
                         Ip = dispositivo.Ip,
                         Mensagem = "Dispositivo cadastrado com sucesso."
                     };
@@ -46,7 +47,8 @@ namespace Ping.Ip.App.Service
 
                 return new RetornaDispositivoDto { Mensagem = "Este Ip já está cadastrado." };
 
-            } catch
+            } 
+            catch
             {
                 return new RetornaDispositivoDto { Mensagem = "Falha ao tentar cadastar dispositivo, tente novamente mais tarde." };
             }
@@ -73,6 +75,7 @@ namespace Ping.Ip.App.Service
                     {
                         Id = dispositivo.Id,
                         Nome = dispositivo.Nome,
+                        TipoDispositivo = dispositivo.TipoDispositivo,
                         Status = status
                     };
 
@@ -82,7 +85,8 @@ namespace Ping.Ip.App.Service
 
                 return lista;
 
-            } catch
+            } 
+            catch
             {
                 return new List<RetornaPingIpDto>();
             }

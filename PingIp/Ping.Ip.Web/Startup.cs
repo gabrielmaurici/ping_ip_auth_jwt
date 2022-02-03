@@ -49,6 +49,10 @@ namespace Ping.Ip.Web
 
             services.AddControllers();
 
+            services.AddCors(options => options.AddDefaultPolicy(
+                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
+            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ping.Ip.Web", Version = "v1" });
@@ -88,6 +92,8 @@ namespace Ping.Ip.Web
             }
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
