@@ -24,7 +24,7 @@ namespace Ping.Ip.App.Service
             {
                 var retorno = await _dispositivoRepository.ObterDispositivoPorIp(model.Ip);
 
-                Dispositivo dispositivo = new Dispositivo
+                Dispositivo dispositivo = new ()
                 {
                     Guid = Guid.NewGuid(),
                     Nome = model.Nome,
@@ -60,7 +60,7 @@ namespace Ping.Ip.App.Service
             {
                 var dispositivos = await _dispositivoRepository.ListarDispositivos();
 
-                List<RetornaPingIpDto> lista = new List<RetornaPingIpDto>();
+                List<RetornaPingIpDto> lista = new ();
 
                 foreach(var dispositivo in dispositivos)
                 {
@@ -71,7 +71,7 @@ namespace Ping.Ip.App.Service
                     if (resultado.Status != 0)
                         status = false;
 
-                    RetornaPingIpDto disp = new RetornaPingIpDto
+                    RetornaPingIpDto disp = new ()
                     {
                         Id = dispositivo.Id,
                         Nome = dispositivo.Nome,
@@ -84,7 +84,6 @@ namespace Ping.Ip.App.Service
                 }
 
                 return lista;
-
             } 
             catch
             {

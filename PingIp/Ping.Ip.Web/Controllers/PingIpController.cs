@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Ping.Ip.Domain;
 using Ping.Ip.Domain.Dto;
 using Ping.Ip.Domain.Service;
 using System.Threading.Tasks;

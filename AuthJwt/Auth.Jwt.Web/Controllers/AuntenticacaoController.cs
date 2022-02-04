@@ -19,12 +19,19 @@ namespace Auth.Jwt.Web.Controllers
         [Route("loginAuth")]
         public ActionResult Autenticacao (User model)
         {
-            var resultado = _geraToken.GerarToken(model);
+            try
+            {
+                var resultado = _geraToken.GerarToken(model);
 
-            if(resultado.Sucesso)
-                return Ok(resultado);
+                if(resultado.Sucesso)
+                    return Ok(resultado);
 
-            return BadRequest(resultado);
+                return BadRequest(resultado);
+            } 
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
