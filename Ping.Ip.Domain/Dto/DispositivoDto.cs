@@ -4,5 +4,6 @@
     {
         public string Nome { get; set; }
         public string Ip { get; set; }
+        public string TipoDispositivo { get; set; }
     }
 }

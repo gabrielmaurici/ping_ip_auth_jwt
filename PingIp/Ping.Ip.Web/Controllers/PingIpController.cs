@@ -48,7 +48,26 @@ namespace Ping.Ip.Web.Controllers
                 if(retorno.Count > 0)
                     return Ok(retorno);
 
-                return Ok("Não existem dispositivos cadastrados.");
+                return BadRequest("Não existem dispositivos cadastrados.");
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut]
+        [Route("AtualizarDispositivo")]
+        public async Task<ActionResult> ObterStatusDispositivos([FromBody] AtualizaDispositivoDto model)
+        {
+            try
+            {
+                var retorno = await _dispositivoService.AtualizarDispositivo(model);
+
+                if (retorno)
+                    return Ok(retorno);
+
+                return BadRequest("Falha ao atualizar dispositivo");
             }
             catch
             {

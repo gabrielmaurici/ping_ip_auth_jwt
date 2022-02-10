@@ -9,5 +9,6 @@ namespace Ping.Ip.Domain
         Task InserirDispositivo(Dispositivo model);
         Task<List<Dispositivo>> ListarDispositivos();
         Task<bool> ObterDispositivoPorIp(string ip);
+        Task AtualizarDispositivo(Dispositivo model);
     }
 }

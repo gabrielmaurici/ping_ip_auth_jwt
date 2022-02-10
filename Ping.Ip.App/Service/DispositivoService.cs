@@ -46,7 +46,6 @@ namespace Ping.Ip.App.Service
                 }
 
                 return new RetornaDispositivoDto { Mensagem = "Este Ip já está cadastrado." };
-
             } 
             catch
             {
@@ -90,5 +89,28 @@ namespace Ping.Ip.App.Service
                 return new List<RetornaPingIpDto>();
             }
         }
+
+        public async Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model)
+        {
+            try
+            {
+                Dispositivo dispositivo = new Dispositivo
+                {
+                    Id = model.Id,
+                    Nome = model.Nome,
+                    Ip = model.Ip,
+                    TipoDispositivo = model.TipoDispositivo
+                };
+
+                await _dispositivoRepository.AtualizarDispositivo(dispositivo);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

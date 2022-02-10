@@ -8,5 +8,6 @@ namespace Ping.Ip.Domain.Service
     {
         Task<RetornaDispositivoDto> InserirDispositivo(DispositivoDto model);
         Task<List<RetornaPingIpDto>> ObterStatusDispositivos();
+        Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model);
     }
 }

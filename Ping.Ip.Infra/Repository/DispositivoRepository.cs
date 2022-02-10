@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Ping.Ip.Infra.Repository
 {
     public class DispositivoRepository : IDispositivoRepository
-    { 
+    {
         public async Task InserirDispositivo(Dispositivo model) {
             using (var context = new DispositivosContext())
             {
@@ -33,6 +33,15 @@ namespace Ping.Ip.Infra.Repository
                 var dispositivo = await context.Dispositivos.FirstOrDefaultAsync(x => x.Ip.Equals(ip));
 
                 return dispositivo == null;
+            }
+        }
+
+        public async Task AtualizarDispositivo(Dispositivo model)
+        {
+            using (var context = new DispositivosContext())
+            {
+                context.Entry<Dispositivo>(model).State = EntityState.Modified;
+                await context.SaveChangesAsync();
             }
         }
     }
