@@ -58,7 +58,7 @@ namespace Ping.Ip.Web.Controllers
 
         [HttpPut]
         [Route("AtualizarDispositivo")]
-        public async Task<ActionResult> ObterStatusDispositivos([FromBody] AtualizaDispositivoDto model)
+        public async Task<ActionResult> AtualizaDispositivo([FromBody] AtualizaDispositivoDto model)
         {
             try
             {

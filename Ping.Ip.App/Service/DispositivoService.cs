@@ -74,6 +74,7 @@ namespace Ping.Ip.App.Service
                     {
                         Id = dispositivo.Id,
                         Nome = dispositivo.Nome,
+                        Ip = dispositivo.Ip,
                         TipoDispositivo = dispositivo.TipoDispositivo,
                         Status = status
                     };
