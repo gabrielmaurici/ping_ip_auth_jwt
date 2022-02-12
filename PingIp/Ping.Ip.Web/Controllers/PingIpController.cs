@@ -37,6 +37,25 @@ namespace Ping.Ip.Web.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("AtualizarDispositivo")]
+        public async Task<ActionResult> AtualizaDispositivo([FromBody] AtualizaDispositivoDto model)
+        {
+            try
+            {
+                var retorno = await _dispositivoService.AtualizarDispositivo(model);
+
+                if (retorno)
+                    return Ok("Dispositivo atualizado com sucesso.");
+
+                return BadRequest("Falha ao atualizar dispositivo");
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
         [HttpGet]
         [Route("ObterStatusDispositivos")]
         public async Task<ActionResult> ObterStatusDispositivos()
@@ -56,18 +75,18 @@ namespace Ping.Ip.Web.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("AtualizarDispositivo")]
-        public async Task<ActionResult> AtualizaDispositivo([FromBody] AtualizaDispositivoDto model)
+        [HttpDelete]
+        [Route("DeletarDispositivo/{id}")]
+        public async Task<ActionResult> DeletarDispositivo(int id)
         {
             try
             {
-                var retorno = await _dispositivoService.AtualizarDispositivo(model);
+                var retorno = await _dispositivoService.DeletarDispositivo(id);
 
                 if (retorno)
-                    return Ok(retorno);
+                    return Ok("Dispositivo deletado.");
 
-                return BadRequest("Falha ao atualizar dispositivo");
+                return BadRequest("Ocorreu algum erro ao tentar deletar o dispositivo.");
             }
             catch
             {

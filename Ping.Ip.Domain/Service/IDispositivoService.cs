@@ -7,7 +7,8 @@ namespace Ping.Ip.Domain.Service
     public interface IDispositivoService
     {
         Task<RetornaDispositivoDto> InserirDispositivo(DispositivoDto model);
-        Task<List<RetornaPingIpDto>> ObterStatusDispositivos();
         Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model);
+        Task<bool> DeletarDispositivo(int id);
+        Task<List<RetornaPingIpDto>> ObterStatusDispositivos();
     }
 }

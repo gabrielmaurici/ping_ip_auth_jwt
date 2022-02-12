@@ -22,17 +22,18 @@ namespace Ping.Ip.App.Service
         {
             try
             {
-                var retorno = await _dispositivoRepository.ObterDispositivoPorIp(model.Ip);
-
-                Dispositivo dispositivo = new ()
-                {
-                    Guid = Guid.NewGuid(),
-                    Nome = model.Nome,
-                    Ip = model.Ip
-                };
+                var retorno = await _dispositivoRepository.VerificaDispositivoExistePorIp(model.Ip);
 
                 if (retorno)
                 {
+                    Dispositivo dispositivo = new()
+                    {
+                        Guid = Guid.NewGuid(),
+                        Nome = model.Nome,
+                        Ip = model.Ip,
+                        TipoDispositivo = model.TipoDispositivo
+                    };
+
                     await _dispositivoRepository.InserirDispositivo(dispositivo);
 
                     return new RetornaDispositivoDto
@@ -50,6 +51,34 @@ namespace Ping.Ip.App.Service
             catch
             {
                 return new RetornaDispositivoDto { Mensagem = "Falha ao tentar cadastar dispositivo, tente novamente mais tarde." };
+            }
+        }
+        
+        public async Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model)
+        {
+            try
+            {
+                var dispositivoBase = await _dispositivoRepository.ObterDispositivoPorId(model.Id);
+
+                if (dispositivoBase == null)
+                    return false;
+
+                Dispositivo dispositivo = new Dispositivo
+                {
+                    Id = model.Id,
+                    Guid = dispositivoBase.Guid,
+                    Nome = model.Nome,
+                    Ip = model.Ip,
+                    TipoDispositivo = model.TipoDispositivo
+                };
+
+                await _dispositivoRepository.AtualizarDispositivo(dispositivo);
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -91,27 +120,23 @@ namespace Ping.Ip.App.Service
             }
         }
 
-        public async Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model)
+        public async Task<bool> DeletarDispositivo(int id)
         {
             try
             {
-                Dispositivo dispositivo = new Dispositivo
-                {
-                    Id = model.Id,
-                    Nome = model.Nome,
-                    Ip = model.Ip,
-                    TipoDispositivo = model.TipoDispositivo
-                };
+                var dispositivo = await _dispositivoRepository.ObterDispositivoPorId(id);
 
-                await _dispositivoRepository.AtualizarDispositivo(dispositivo);
+                if (dispositivo == null)
+                    return false;
+                
+                await _dispositivoRepository.DeletarDispositivo(dispositivo);
 
-                return true;
+                return true;                    
             }
             catch
             {
                 return false;
             }
         }
-
     }
 }
