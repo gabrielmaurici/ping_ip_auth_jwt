@@ -1,6 +1,7 @@
 ﻿using Ping.Ip.Domain;
 using Ping.Ip.Domain.Domain;
 using Ping.Ip.Domain.Dto;
+using Ping.Ip.Domain.Model;
 using Ping.Ip.Domain.Service;
 using System;
 using System.Collections.Generic;
@@ -18,52 +19,43 @@ namespace Ping.Ip.App.Service
             _dispositivoRepository = dispositivoRepository;
         }
 
-        public async Task<RetornaDispositivoDto> InserirDispositivo(DispositivoDto model)
+        public async Task<RetornoGenericoModel<bool>> InserirDispositivo(DispositivoDto model)
         {
             try
             {
                 var retorno = await _dispositivoRepository.VerificaDispositivoExistePorIp(model.Ip);
 
-                if (retorno)
+                if (!retorno)
+                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Esse IP já está cadastrado, tente novamente mais tarde." };
+                
+                Dispositivo dispositivo = new()
                 {
-                    Dispositivo dispositivo = new()
-                    {
-                        Guid = Guid.NewGuid(),
-                        Nome = model.Nome,
-                        Ip = model.Ip,
-                        TipoDispositivo = model.TipoDispositivo
-                    };
+                    Guid = Guid.NewGuid(),
+                    Nome = model.Nome,
+                    Ip = model.Ip,
+                    TipoDispositivo = model.TipoDispositivo
+                };
 
-                    await _dispositivoRepository.InserirDispositivo(dispositivo);
+                await _dispositivoRepository.InserirDispositivo(dispositivo);
 
-                    return new RetornaDispositivoDto
-                    {
-                        Guid = dispositivo.Guid,
-                        Nome = dispositivo.Nome,
-                        TipoDispositivo = dispositivo.TipoDispositivo,
-                        Ip = dispositivo.Ip,
-                        Mensagem = "Dispositivo cadastrado com sucesso."
-                    };
-                }
-
-                return new RetornaDispositivoDto { Mensagem = "Este Ip já está cadastrado." };
+                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo cadastrado com sucesso." };
             } 
             catch
             {
-                return new RetornaDispositivoDto { Mensagem = "Falha ao tentar cadastar dispositivo, tente novamente mais tarde." };
+                return new RetornoGenericoModel<bool>() { Status = false };
             }
         }
         
-        public async Task<bool> AtualizarDispositivo(AtualizaDispositivoDto model)
+        public async Task<RetornoGenericoModel<bool>> AtualizarDispositivo(AtualizaDispositivoDto model)
         {
             try
             {
                 var dispositivoBase = await _dispositivoRepository.ObterDispositivoPorId(model.Id);
 
                 if (dispositivoBase == null)
-                    return false;
+                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Dispositivo não econtrado." };
 
-                Dispositivo dispositivo = new Dispositivo
+                Dispositivo dispositivo = new ()
                 {
                     Id = model.Id,
                     Guid = dispositivoBase.Guid,
@@ -74,19 +66,22 @@ namespace Ping.Ip.App.Service
 
                 await _dispositivoRepository.AtualizarDispositivo(dispositivo);
 
-                return true;
+                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo alterado com sucesso." };
             }
             catch
             {
-                return false;
+                return new RetornoGenericoModel<bool>() { Status = false };
             }
         }
 
-        public async Task<List<RetornaPingIpDto>> ObterStatusDispositivos()
+        public async Task<RetornoGenericoModel<List<RetornaPingIpDto>>> ObterStatusDispositivos()
         {
             try
             {
                 var dispositivos = await _dispositivoRepository.ListarDispositivos();
+
+                if(dispositivos.Count <= 0)
+                    return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = false, Mensagem = "Nenhum dispositivo cadastrado"};
 
                 List<RetornaPingIpDto> lista = new ();
 
@@ -112,30 +107,30 @@ namespace Ping.Ip.App.Service
                     lista.Add(disp);
                 }
 
-                return lista;
+                return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = true, Modelo = lista };
             } 
             catch
             {
-                return new List<RetornaPingIpDto>();
+                return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = false };
             }
         }
 
-        public async Task<bool> DeletarDispositivo(int id)
+        public async Task<RetornoGenericoModel<bool>> DeletarDispositivo(int id)
         {
             try
             {
                 var dispositivo = await _dispositivoRepository.ObterDispositivoPorId(id);
 
                 if (dispositivo == null)
-                    return false;
+                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Dispositivo não encontrado." };
                 
                 await _dispositivoRepository.DeletarDispositivo(dispositivo);
 
-                return true;                    
+                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo deletado com sucesso." };
             }
             catch
             {
-                return false;
+                return new RetornoGenericoModel<bool>() { Status = false };
             }
         }
     }

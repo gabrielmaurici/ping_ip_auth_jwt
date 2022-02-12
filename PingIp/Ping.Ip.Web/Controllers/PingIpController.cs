@@ -26,10 +26,10 @@ namespace Ping.Ip.Web.Controllers
             {
                 var retorno = await _dispositivoService.InserirDispositivo(model);
 
-                if(retorno.Ip != null)
-                    return Ok(retorno);
+                if(retorno.Modelo)
+                    return Ok(retorno.Mensagem);
 
-                return Conflict(retorno);
+                return Conflict(retorno.Mensagem);
 
             } catch
             {
@@ -45,10 +45,10 @@ namespace Ping.Ip.Web.Controllers
             {
                 var retorno = await _dispositivoService.AtualizarDispositivo(model);
 
-                if (retorno)
-                    return Ok("Dispositivo atualizado com sucesso.");
+                if (retorno.Modelo)
+                    return Ok(retorno.Mensagem);
 
-                return BadRequest("Falha ao atualizar dispositivo");
+                return BadRequest(retorno.Mensagem);
             }
             catch
             {
@@ -64,10 +64,10 @@ namespace Ping.Ip.Web.Controllers
             {
                 var retorno = await _dispositivoService.ObterStatusDispositivos();
 
-                if(retorno.Count > 0)
-                    return Ok(retorno);
+                if(retorno.Status)
+                    return Ok(retorno.Modelo);
 
-                return BadRequest("Não existem dispositivos cadastrados.");
+                return BadRequest(retorno.Mensagem);
             }
             catch
             {
@@ -83,10 +83,10 @@ namespace Ping.Ip.Web.Controllers
             {
                 var retorno = await _dispositivoService.DeletarDispositivo(id);
 
-                if (retorno)
-                    return Ok("Dispositivo deletado.");
+                if (retorno.Status)
+                    return Ok(retorno.Mensagem);
 
-                return BadRequest("Ocorreu algum erro ao tentar deletar o dispositivo.");
+                return BadRequest(retorno.Mensagem);
             }
             catch
             {
