@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ping.Ip.App\Ping.Ip.App.csproj" />
-    <ProjectReference Include="..\..\Ping.Ip.Domain\Ping.Ip.Domain.csproj" />
-    <ProjectReference Include="..\..\Ping.Ip.Infra\Ping.Ip.Infra.csproj" />
+    <ProjectReference Include="..\Ping.Ip.App\Ping.Ip.App.csproj" />
+    <ProjectReference Include="..\Ping.Ip.Domain\Ping.Ip.Domain.csproj" />
+    <ProjectReference Include="..\Ping.Ip.Infra\Ping.Ip.Infra.csproj" />
   </ItemGroup>
 
 </Project>
