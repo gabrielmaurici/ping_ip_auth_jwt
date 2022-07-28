@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
@@ -17,9 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDispositivoRepository, DispositivoRepository>();
 builder.Services.AddScoped<IDispositivoService, DispositivoService>();
 
-ConfigurationManager Configuration = builder.Configuration;
+var chavePrivada = builder.Configuration["ChavePrivada"];
+var key = Encoding.ASCII.GetBytes(chavePrivada);
 
-var key = Encoding.ASCII.GetBytes(Configuration["ChavePrivada"]);
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,15 +64,15 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityDefinition("Bearer", securitySchema);
 
     var securityRequirement = new OpenApiSecurityRequirement
-                {
-                    { securitySchema, new[] { "Bearer" } }
-                };
+    {
+        { securitySchema, new[] { "Bearer" } }
+    };
 
     c.AddSecurityRequirement(securityRequirement);
 });
 
-
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -92,9 +91,5 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
 
 app.Run();

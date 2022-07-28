@@ -21,117 +21,78 @@ namespace Ping.Ip.App.Service
 
         public async Task<RetornoGenericoModel<bool>> InserirDispositivo(DispositivoDto model)
         {
-            try
-            {
-                var retorno = await _dispositivoRepository.VerificaDispositivoExistePorIp(model.Ip);
+            var retorno = await _dispositivoRepository.VerificaDispositivoExistePorIp(model.Ip);
+            if (!retorno)
+                return new RetornoGenericoModel<bool>("Esse IP já está cadastrado, tente novamente mais tarde.");
 
-                if (!retorno)
-                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Esse IP já está cadastrado, tente novamente mais tarde." };
-                
-                Dispositivo dispositivo = new()
-                {
-                    Guid = Guid.NewGuid(),
-                    Nome = model.Nome,
-                    Ip = model.Ip,
-                    TipoDispositivo = model.TipoDispositivo
-                };
+            var dispositivo = new Dispositivo()
+                .AdicionaDispositivo(model.Nome, model.TipoDispositivo, model.Ip);
 
-                await _dispositivoRepository.InserirDispositivo(dispositivo);
+            await _dispositivoRepository.InserirDispositivo(dispositivo);
 
-                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo cadastrado com sucesso." };
-            } 
-            catch
-            {
-                return new RetornoGenericoModel<bool>() { Status = false };
-            }
+            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo cadastrado com sucesso." };
         }
         
         public async Task<RetornoGenericoModel<bool>> AtualizarDispositivo(AtualizaDispositivoDto model)
         {
-            try
-            {
-                var dispositivoBase = await _dispositivoRepository.ObterDispositivoPorId(model.Id);
+            var dispositivoBase = await _dispositivoRepository.ObterDispositivoPorId(model.Id);
+            if (dispositivoBase == null)
+                return new RetornoGenericoModel<bool>("Dispositivo não econtrado.");
 
-                if (dispositivoBase == null)
-                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Dispositivo não econtrado." };
+            var dispositivo = new Dispositivo()
+                .AtualizaDispositivo(model.Nome, model.TipoDispositivo, model.Ip, dispositivoBase);
 
-                Dispositivo dispositivo = new ()
-                {
-                    Id = model.Id,
-                    Guid = dispositivoBase.Guid,
-                    Nome = model.Nome,
-                    Ip = model.Ip,
-                    TipoDispositivo = model.TipoDispositivo
-                };
+            await _dispositivoRepository.AtualizarDispositivo(dispositivo);
 
-                await _dispositivoRepository.AtualizarDispositivo(dispositivo);
-
-                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo alterado com sucesso." };
-            }
-            catch
-            {
-                return new RetornoGenericoModel<bool>() { Status = false };
-            }
+            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo alterado com sucesso." };
         }
 
         public async Task<RetornoGenericoModel<List<RetornaPingIpDto>>> ObterStatusDispositivos()
         {
-            try
+            var dispositivos = await _dispositivoRepository.ListarDispositivos();
+            if (dispositivos.Count <= 0)
+                return new RetornoGenericoModel<List<RetornaPingIpDto>>("Nenhum dispositivo cadastrado");
+
+            List<RetornaPingIpDto> lista = new ();
+            foreach (var dispositivo in dispositivos)
             {
-                var dispositivos = await _dispositivoRepository.ListarDispositivos();
-
-                if(dispositivos.Count <= 0)
-                    return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = false, Mensagem = "Nenhum dispositivo cadastrado"};
-
-                List<RetornaPingIpDto> lista = new ();
-
-                foreach(var dispositivo in dispositivos)
+                RetornaPingIpDto disp = new()
                 {
-                    System.Net.NetworkInformation.Ping pinger = new System.Net.NetworkInformation.Ping();
-                    PingReply resultado = await pinger.SendPingAsync(dispositivo.Ip);
+                    Id = dispositivo.Id,
+                    Nome = dispositivo.Nome,
+                    Ip = dispositivo.Ip,
+                    TipoDispositivo = dispositivo.TipoDispositivo,
+                    Status = await RealizaPing(dispositivo.Ip)
+                };
 
-                    bool status = true;
-                    if (resultado.Status != 0)
-                        status = false;
+                lista.Add(disp);
+            };
 
-                    RetornaPingIpDto disp = new ()
-                    {
-                        Id = dispositivo.Id,
-                        Nome = dispositivo.Nome,
-                        Ip = dispositivo.Ip,
-                        TipoDispositivo = dispositivo.TipoDispositivo,
-                        Status = status
-                    };
-
-
-                    lista.Add(disp);
-                }
-
-                return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = true, Modelo = lista };
-            } 
-            catch
-            {
-                return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = false };
-            }
+            return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = true, Modelo = lista };
         }
 
         public async Task<RetornoGenericoModel<bool>> DeletarDispositivo(int id)
         {
-            try
-            {
-                var dispositivo = await _dispositivoRepository.ObterDispositivoPorId(id);
 
-                if (dispositivo == null)
-                    return new RetornoGenericoModel<bool>() { Modelo = false, Mensagem = "Dispositivo não encontrado." };
+            var dispositivo = await _dispositivoRepository.ObterDispositivoPorId(id);
+
+            if (dispositivo == null)
+                return new RetornoGenericoModel<bool>("Dispositivo não encontrado.");
                 
-                await _dispositivoRepository.DeletarDispositivo(dispositivo);
+            await _dispositivoRepository.DeletarDispositivo(dispositivo);
 
-                return new RetornoGenericoModel<bool>() { Modelo = true, Mensagem = "Dispositivo deletado com sucesso." };
-            }
-            catch
-            {
-                return new RetornoGenericoModel<bool>() { Status = false };
-            }
+            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo deletado com sucesso." };
+        }
+
+        private static async Task<bool> RealizaPing(string ip)
+        {
+            System.Net.NetworkInformation.Ping pinger = new();
+            PingReply resultado = await pinger.SendPingAsync(ip);
+
+            bool status = true;
+            if (resultado.Status != 0)
+                status = false;
+            return status;
         }
     }
 }

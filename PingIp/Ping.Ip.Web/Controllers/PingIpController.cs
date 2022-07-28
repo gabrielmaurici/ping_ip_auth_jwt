@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ping.Ip.Domain.Dto;
 using Ping.Ip.Domain.Service;
+using System;
 using System.Threading.Tasks;
 
 namespace Ping.Ip.Web.Controllers
@@ -25,15 +26,14 @@ namespace Ping.Ip.Web.Controllers
             try
             {
                 var retorno = await _dispositivoService.InserirDispositivo(model);
-
-                if(retorno.Modelo)
+                if(retorno.Status)
                     return Ok(retorno.Mensagem);
 
                 return Conflict(retorno.Mensagem);
-
-            } catch
+            }
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Ping.Ip.Web.Controllers
             {
                 var retorno = await _dispositivoService.AtualizarDispositivo(model);
 
-                if (retorno.Modelo)
+                if (retorno.Status)
                     return Ok(retorno.Mensagem);
 
                 return BadRequest(retorno.Mensagem);
