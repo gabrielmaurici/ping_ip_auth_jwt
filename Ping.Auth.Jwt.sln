@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthJwt", "AuthJwt", "{16D64C59-6D3A-4A9D-A08A-95B51F1EDF32}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Infra", "PingIp\Ping.Ip.Infra\Ping.Ip.Infra.csproj", "{98633F83-0C9B-435A-A615-EC4F87C0EC18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Domain", "PingIp\Ping.Ip.Domain\Ping.Ip.Domain.csproj", "{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{98279500-DF57-496E-8F19-238970AE46B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.Testes", "Ping.Ip.Testes\Ping.Ip.Testes.csproj", "{E1796930-12DE-4CDB-B715-63F5B3B67CCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,10 @@ Global
 		{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +82,7 @@ Global
 		{07DCD9CA-F3AC-49A1-A2BD-5F0CEA373FFA} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{98633F83-0C9B-435A-A615-EC4F87C0EC18} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03} = {5AC04D72-43FC-4386-9582-6EE65673D096}
+		{E1796930-12DE-4CDB-B715-63F5B3B67CCD} = {98279500-DF57-496E-8F19-238970AE46B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F917BFF1-4467-42AE-84EF-49068A1CCDDD}

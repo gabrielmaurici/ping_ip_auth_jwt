@@ -34,9 +34,7 @@ namespace Ping.Ip.Infra.Repository
         public async Task<bool> VerificaDispositivoExistePorIp(string ip)
         {
             using var context = new DispositivosContext();
-            var dispositivo = await context.Dispositivos.FirstOrDefaultAsync(x => x.Ip.Equals(ip));
-
-            return dispositivo == null;
+            return await context.Dispositivos.AnyAsync(x => x.Ip.Equals(ip));
         }
 
         public async Task<Dispositivo> ObterDispositivoPorId(int id)

@@ -22,8 +22,8 @@ namespace Ping.Ip.App.Service
         public async Task<RetornoGenericoModel<bool>> InserirDispositivo(DispositivoDto model)
         {
             var retorno = await _dispositivoRepository.VerificaDispositivoExistePorIp(model.Ip);
-            if (!retorno)
-                return new RetornoGenericoModel<bool>("Esse IP já está cadastrado, tente novamente mais tarde.");
+            if (retorno)
+                return new RetornoGenericoModel<bool>("Esse IP já está cadastrado.");
 
             var dispositivo = new Dispositivo()
                 .AdicionaDispositivo(model.Nome, model.TipoDispositivo, model.Ip);
