@@ -1,26 +1,47 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Auth.Jwt.App.Service;
+using Auth.Jwt.Domain.Repositorio;
+using Auth.Jwt.Domain.Service;
+using Auth.Jwt.Infra;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
-namespace Auth.Jwt.Web
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUserRepositorio, UserRepositorio>();
+builder.Services.AddScoped<IGerarToken, GeraToken>();
+
+builder.Services.AddCors(options => options.AddDefaultPolicy(
+            builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
+        );
+
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(c =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Auth.Jwt.Web", Version = "v1" });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth.Jwt.Web v1"));
 }
+
+app.UseRouting();
+
+app.UseCors();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+app.Run();
