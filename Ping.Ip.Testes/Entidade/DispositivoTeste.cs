@@ -18,7 +18,7 @@ namespace Ping.Ip.Testes.Entidade
             Assert.Equal("Iphone", dispositivo.Nome);
             Assert.Equal("Celular", dispositivo.TipoDispositivo);
             Assert.Equal("192.168.0.116", dispositivo.Ip);
-            Assert.NotEqual(new Guid(), dispositivo.Guid);
+            Assert.Equal(dispositivo.Guid, dispositivo.Guid);
         }
 
         [Fact]
@@ -39,8 +39,8 @@ namespace Ping.Ip.Testes.Entidade
             Assert.Equal(id, dispositivo.Id);
             Assert.Equal(guid, dispositivo.Guid);
             Assert.Equal("192.168.0.116", dispositivo.Ip);
-            Assert.NotEqual("Iphone", dispositivo.Nome);
-            Assert.NotEqual("Celular", dispositivo.TipoDispositivo);
+            Assert.Equal("Iphone 13", dispositivo.Nome);
+            Assert.Equal("SmartPhone", dispositivo.TipoDispositivo);
         }
     }
 }
