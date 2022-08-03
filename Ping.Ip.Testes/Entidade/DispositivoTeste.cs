@@ -1,4 +1,5 @@
 ﻿using Ping.Ip.Domain.Domain;
+using Ping.Ip.Domain.Exceptions;
 using Xunit;
 
 namespace Ping.Ip.Testes.Entidade
@@ -6,7 +7,7 @@ namespace Ping.Ip.Testes.Entidade
     public class DispositivoTeste
     {
         [Fact]
-        public void Valida_Criacao_De_Um_Novo_Dispositivo()
+        public void DispositivoComDadosValidos_AdicionaDispositivo_RetornaDispositivoValido()
         {
             // Arrange
             var dispositivo = new Dispositivo();
@@ -22,7 +23,18 @@ namespace Ping.Ip.Testes.Entidade
         }
 
         [Fact]
-        public void Valida_Alteracao_De_Um_Dispositivo()
+        public void DispositivoComDadosInvalidos_AdicionaDispositivo_RetornaException()
+        {
+            // Arrange
+            var dispositivo = new Dispositivo();
+
+            // Act - Assert
+            var ex = Assert.Throws<IpInvalidoException>(() => dispositivo.AdicionaDispositivo("Iphone", "Celular", ""));
+            Assert.Contains(new IpInvalidoException().Message, ex.Message);
+        }
+
+        [Fact]
+        public void DispositivoComDadosValidos_AlteraDispositivo_RetornaDispositivoValido()
         {
             // Arrange
             var dispositivo = new Dispositivo()

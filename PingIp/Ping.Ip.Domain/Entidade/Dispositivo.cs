@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ping.Ip.Domain.Exceptions;
+using System;
 
 namespace Ping.Ip.Domain.Domain
 {
@@ -15,7 +16,7 @@ namespace Ping.Ip.Domain.Domain
             Guid = Guid.NewGuid();
             Nome = nome;
             TipoDispositivo = tipoDispositivo;
-            Ip = ip;
+            Ip = !string.IsNullOrEmpty(ip) ? ip : throw new IpInvalidoException();
 
             return this;
         }
