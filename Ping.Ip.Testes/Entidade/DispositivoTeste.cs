@@ -1,12 +1,13 @@
 ﻿using Ping.Ip.Domain.Domain;
 using Ping.Ip.Domain.Exceptions;
+using Shouldly;
 using Xunit;
 
 namespace Ping.Ip.Testes.Entidade
 { 
     public class DispositivoTeste
     {
-        [Fact]
+        [Fact(DisplayName = "Passa dados válidos para método AdiconaDispositivo e retorna a mesma instância com os valores atualizados")]
         public void DispositivoComDadosValidos_AdicionaDispositivo_RetornaDispositivoValido()
         {
             // Arrange
@@ -16,13 +17,13 @@ namespace Ping.Ip.Testes.Entidade
             dispositivo = dispositivo.AdicionaDispositivo("Iphone", "Celular", "192.168.0.116");
 
             // Assert
-            Assert.Equal("Iphone", dispositivo.Nome);
-            Assert.Equal("Celular", dispositivo.TipoDispositivo);
-            Assert.Equal("192.168.0.116", dispositivo.Ip);
-            Assert.Equal(dispositivo.Guid, dispositivo.Guid);
+            dispositivo.Nome.ShouldBe("Iphone");
+            dispositivo.TipoDispositivo.ShouldBe("Celular");
+            dispositivo.Ip.ShouldBe("192.168.0.116");
+            dispositivo.Guid.ShouldBe(dispositivo.Guid);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Chama método AdicionaDispositivo sem passar IP e retorna Exception customizada ")]
         public void DispositivoComDadosInvalidos_AdicionaDispositivo_RetornaException()
         {
             // Arrange
@@ -30,10 +31,10 @@ namespace Ping.Ip.Testes.Entidade
 
             // Act - Assert
             var ex = Assert.Throws<IpInvalidoException>(() => dispositivo.AdicionaDispositivo("Iphone", "Celular", ""));
-            Assert.Contains(new IpInvalidoException().Message, ex.Message);
+            ex.Message.ShouldBe(new IpInvalidoException().Message);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Passa dados válidos para método AtualizaDispositivo e retorna a mesma instância com os valores atualizados")]
         public void DispositivoComDadosValidos_AlteraDispositivo_RetornaDispositivoValido()
         {
             // Arrange
@@ -48,11 +49,11 @@ namespace Ping.Ip.Testes.Entidade
                 .AtualizaDispositivo("Iphone 13", "SmartPhone", "", dispositivo);
 
             // Assert
-            Assert.Equal(id, dispositivo.Id);
-            Assert.Equal(guid, dispositivo.Guid);
-            Assert.Equal("192.168.0.116", dispositivo.Ip);
-            Assert.Equal("Iphone 13", dispositivo.Nome);
-            Assert.Equal("SmartPhone", dispositivo.TipoDispositivo);
+            dispositivo.Id.ShouldBe(id);
+            dispositivo.Guid.ShouldBe(guid);
+            dispositivo.Ip.ShouldBe("192.168.0.116");
+            dispositivo.Nome.ShouldBe("Iphone 13");
+            dispositivo.TipoDispositivo.ShouldBe("SmartPhone");
         }
     }
 }
