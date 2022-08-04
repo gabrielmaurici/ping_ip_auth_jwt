@@ -30,7 +30,7 @@ namespace Ping.Ip.App.Service
 
             await _dispositivoRepository.InserirDispositivo(dispositivo);
 
-            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo cadastrado com sucesso." };
+            return new RetornoGenericoModel<bool>(true, "Dispositivo cadastrado com sucesso.");
         }
         
         public async Task<RetornoGenericoModel<bool>> AtualizarDispositivo(AtualizaDispositivoDto model)
@@ -44,7 +44,7 @@ namespace Ping.Ip.App.Service
 
             await _dispositivoRepository.AtualizarDispositivo(dispositivo);
 
-            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo alterado com sucesso." };
+            return new RetornoGenericoModel<bool>(true, "Dispositivo alterado com sucesso.");
         }
 
         public async Task<RetornoGenericoModel<List<RetornaPingIpDto>>> ObterStatusDispositivos()
@@ -68,7 +68,7 @@ namespace Ping.Ip.App.Service
                 lista.Add(disp);
             };
 
-            return new RetornoGenericoModel<List<RetornaPingIpDto>>() { Status = true, Modelo = lista };
+            return new RetornoGenericoModel<List<RetornaPingIpDto>>(lista);
         }
 
         public async Task<RetornoGenericoModel<bool>> DeletarDispositivo(int id)
@@ -81,7 +81,7 @@ namespace Ping.Ip.App.Service
                 
             await _dispositivoRepository.DeletarDispositivo(dispositivo);
 
-            return new RetornoGenericoModel<bool>() { Status = true, Modelo = true, Mensagem = "Dispositivo deletado com sucesso." };
+            return new RetornoGenericoModel<bool>(true, "Dispositivo deletado com sucesso.");
         }
 
         private static async Task<bool> RealizaPing(string ip)
@@ -90,8 +90,8 @@ namespace Ping.Ip.App.Service
             PingReply resultado = await pinger.SendPingAsync(ip);
 
             bool status = true;
-            if (resultado.Status != 0)
-                status = false;
+            if (resultado.Status != 0) status = false;
+
             return status;
         }
     }

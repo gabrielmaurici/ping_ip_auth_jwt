@@ -8,6 +8,13 @@
 
         public RetornoGenericoModel() { }
 
+        public RetornoGenericoModel(T modelo, string mensagem = null)
+        {
+            Status = true;
+            Modelo = modelo;
+            Mensagem = mensagem;
+        }
+
         public RetornoGenericoModel(string mensagemErro)
         {
             Status = false;
