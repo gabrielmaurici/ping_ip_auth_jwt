@@ -30,8 +30,9 @@ namespace Ping.Ip.Testes.Entidade
             var dispositivo = new Dispositivo();
 
             // Act - Assert
-            var ex = Assert.Throws<IpInvalidoException>(() => dispositivo.AdicionaDispositivo("Iphone", "Celular", ""));
-            ex.Message.ShouldBe(new IpInvalidoException().Message);
+            Should.Throw<IpInvalidoException>(() => dispositivo
+                .AdicionaDispositivo("Iphone", "Celular", "")).Message
+                .ShouldBe(new IpInvalidoException().Message);
         }
 
         [Fact(DisplayName = "Passa dados válidos para método AtualizaDispositivo e retorna a mesma instância com os valores atualizados")]
