@@ -25,7 +25,7 @@ namespace Ping.Ip.Testes.Model
         }
 
         [Fact(DisplayName = "Testando construtor de erro com mensagem")]
-        public void DadoSucesso_ChamaConstrutorSucesso_RetornaModeloErroComMensagem()
+        public void DadoErro_ChamaConstrutorErro_RetornaModeloErroComMensagem()
         {
             // Arrange
             var mensagem = "Mensagem de erro";
