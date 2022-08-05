@@ -61,5 +61,53 @@ namespace Ping.Ip.Testes.Service
             dispositivoRepositoryMock.Verify(x => x.VerificaDispositivoExistePorIp(It.IsAny<string>()), Times.Once);
             dispositivoRepositoryMock.Verify(x => x.InserirDispositivo(It.IsAny<Dispositivo>()), Times.Never);
         }
+
+        [Fact(DisplayName = "Atualiza um dispositivo e retorna sucesso")]
+        public async void DadoDispositivoExistente_ChamaServicoAtualizar_RetornaModeloGenericoDeSucesso()
+        {
+            // Arrange
+            var atualizaDispositivoDto = new Fixture().Create<AtualizaDispositivoDto>();
+
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+            // Act
+            dispositivoRepositoryMock.Setup(x => x.ObterDispositivoPorId(It.IsAny<int>()).Result)
+                .Returns(new Dispositivo());
+
+            var resultado = await dispositivoService.AtualizarDispositivo(atualizaDispositivoDto);
+
+            // Assert
+            resultado.Status.ShouldBe(true);
+            resultado.Modelo.ShouldBe(true);
+            resultado.Mensagem.ShouldBe("Dispositivo alterado com sucesso.");
+
+            dispositivoRepositoryMock.Verify(x => x.ObterDispositivoPorId(It.IsAny<int>()), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.AtualizarDispositivo(It.IsAny<Dispositivo>()), Times.Once);
+        }
+
+
+        [Fact(DisplayName = "Atualiza um dispositivo não existente e retorna erro com mensagem")]
+        public async void DadoDispositivoNaoExistente_ChamaServicoAtualizar_RetornaModeloGenericoDeErroComMensagem()
+        {
+            // Arrange
+            var atualizaDispositivoDto = new Fixture().Create<AtualizaDispositivoDto>();
+
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+            // Act
+            var resultado = await dispositivoService.AtualizarDispositivo(atualizaDispositivoDto);
+
+            // Assert
+            resultado.Status.ShouldBe(false);
+            resultado.Modelo.ShouldBe(false);
+            resultado.Mensagem.ShouldBe("Dispositivo não econtrado.");
+
+            dispositivoRepositoryMock.Verify(x => x.ObterDispositivoPorId(It.IsAny<int>()), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.AtualizarDispositivo(It.IsAny<Dispositivo>()), Times.Never);
+        }
     }
 }
