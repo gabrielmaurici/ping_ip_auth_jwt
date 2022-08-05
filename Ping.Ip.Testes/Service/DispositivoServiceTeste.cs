@@ -87,7 +87,6 @@ namespace Ping.Ip.Testes.Service
             dispositivoRepositoryMock.Verify(x => x.AtualizarDispositivo(It.IsAny<Dispositivo>()), Times.Once);
         }
 
-
         [Fact(DisplayName = "Atualiza um dispositivo não existente e retorna erro com mensagem")]
         public async void DadoDispositivoNaoExistente_ChamaServicoAtualizar_RetornaModeloGenericoDeErroComMensagem()
         {
@@ -158,7 +157,6 @@ namespace Ping.Ip.Testes.Service
 
             var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
 
-
             //Act
             dispositivoRepositoryMock.Setup(x => x.ListarDispositivos().Result)
                 .Returns(new List<Dispositivo>());
@@ -171,6 +169,49 @@ namespace Ping.Ip.Testes.Service
             resultado.Mensagem.ShouldBe("Nenhum dispositivo cadastrado");
 
             dispositivoRepositoryMock.Verify(x => x.ListarDispositivos(), Times.Once);
+        }
+
+        [Fact(DisplayName = "Chama serviço para deletar dispositivo com Id de um dispositivo existente e retorna sucesso")]
+        public async void PassadoIdDipositivoExistente_ChamaServicoDeletarDispositivo_RetornaModeloGenericoDeSucesso()
+        {
+            // Arrange
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+            //Act
+            dispositivoRepositoryMock.Setup(x => x.ObterDispositivoPorId(It.IsAny<int>()).Result)
+                .Returns(new Dispositivo());
+
+            var resultado = await dispositivoService.DeletarDispositivo(1);
+
+            // Assert
+            resultado.Status.ShouldBe(true);
+            resultado.Modelo.ShouldBe(true);
+            resultado.Mensagem.ShouldBe("Dispositivo deletado com sucesso.");
+
+            dispositivoRepositoryMock.Verify(x => x.ObterDispositivoPorId(It.IsAny<int>()), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.DeletarDispositivo(It.IsAny<Dispositivo>()), Times.Once);
+        }
+
+        [Fact(DisplayName = "Chama serviço para deletar dispositivo com Id de um dispositivo inexistente e retorna erro com mensagem")]
+        public async void PassadoIdDipositivoInexistente_ChamaServicoDeletarDispositivo_RetornaModeloGenericoDeErroComMensagem()
+        {
+            // Arrange
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+            //Act
+            var resultado = await dispositivoService.DeletarDispositivo(1);
+
+            // Assert
+            resultado.Status.ShouldBe(false);
+            resultado.Modelo.ShouldBe(false);
+            resultado.Mensagem.ShouldBe("Dispositivo não encontrado.");
+
+            dispositivoRepositoryMock.Verify(x => x.ObterDispositivoPorId(It.IsAny<int>()), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.DeletarDispositivo(It.IsAny<Dispositivo>()), Times.Never);
         }
     }
 }
