@@ -109,5 +109,68 @@ namespace Ping.Ip.Testes.Service
             dispositivoRepositoryMock.Verify(x => x.ObterDispositivoPorId(It.IsAny<int>()), Times.Once);
             dispositivoRepositoryMock.Verify(x => x.AtualizarDispositivo(It.IsAny<Dispositivo>()), Times.Never);
         }
+
+        [Fact(DisplayName = "Obtém listagem de dispositivos com stauts do ping realizado")]
+        public async void DispositivosCadastrados_ChamaServicoObterStatusDispositivos_RetornaModeloGenericoDeSucessoComDto()
+        {
+            // Arrange
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+            var dispositivo = new Dispositivo()
+                .AdicionaDispositivo("Dispositivo 1", "Teste", "120.190.0.116");
+
+            List<RetornaPingIpDto> retornoPingIpDto = new()
+            {
+               new RetornaPingIpDto
+               {
+                   Id = dispositivo.Id,
+                   Nome = dispositivo.Nome,
+                   TipoDispositivo = dispositivo.TipoDispositivo,
+                   Ip = dispositivo.Ip,
+                   Status = false
+               }
+            }; 
+
+            //Act
+            dispositivoRepositoryMock.Setup(x => x.ListarDispositivos().Result)
+                .Returns(new List<Dispositivo> { dispositivo });
+
+            var resultado = await dispositivoService.ObterStatusDispositivos();
+
+            // Assert
+            resultado.Status.ShouldBe(true);
+            resultado.Modelo[0].Id.ShouldBe(retornoPingIpDto[0].Id);
+            resultado.Modelo[0].Nome.ShouldBe(retornoPingIpDto[0].Nome);
+            resultado.Modelo[0].TipoDispositivo.ShouldBe(retornoPingIpDto[0].TipoDispositivo);
+            resultado.Modelo[0].Ip.ShouldBe(retornoPingIpDto[0].Ip);
+            resultado.Modelo[0].Status.ShouldBe(retornoPingIpDto[0].Status);
+            resultado.Mensagem.ShouldBe(null);
+
+            dispositivoRepositoryMock.Verify(x => x.ListarDispositivos(), Times.Once);
+        }
+
+        [Fact(DisplayName = "Chama serviço de listagem de dispositivos com IP sem ter dispositivos cadastrados e retorna Erro com mensagem")]
+        public async void SemDispositivosCadastrados_ChamaServicoObterStatusDispositivos_RetornaModeloGenericoDeErroComMensagem()
+        {
+            // Arrange
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+
+            //Act
+            dispositivoRepositoryMock.Setup(x => x.ListarDispositivos().Result)
+                .Returns(new List<Dispositivo>());
+
+            var resultado = await dispositivoService.ObterStatusDispositivos();
+
+            // Assert
+            resultado.Status.ShouldBe(false);
+            resultado.Modelo.ShouldBe(null);
+            resultado.Mensagem.ShouldBe("Nenhum dispositivo cadastrado");
+
+            dispositivoRepositoryMock.Verify(x => x.ListarDispositivos(), Times.Once);
+        }
     }
 }

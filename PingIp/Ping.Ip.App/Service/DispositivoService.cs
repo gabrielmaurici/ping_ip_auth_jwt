@@ -73,7 +73,6 @@ namespace Ping.Ip.App.Service
 
         public async Task<RetornoGenericoModel<bool>> DeletarDispositivo(int id)
         {
-
             var dispositivo = await _dispositivoRepository.ObterDispositivoPorId(id);
 
             if (dispositivo == null)
