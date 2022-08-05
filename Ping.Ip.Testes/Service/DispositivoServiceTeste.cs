@@ -34,5 +34,32 @@ namespace Ping.Ip.Testes.Service
             dispositivoRepositoryMock.Verify(x => x.VerificaDispositivoExistePorIp(dispositivoDto.Ip), Times.Once);
             dispositivoRepositoryMock.Verify(x => x.InserirDispositivo(It.IsAny<Dispositivo>()), Times.Once);
         }
+
+        [Fact(DisplayName = "Insere um dispositivo com IP já cadastrado e retorna erro com mensagem")]
+        public async void DispositivoComIpJaCadastradp_ChamaServicoInserir_RetornaModeloGenericoDeErroComMensagem()
+        {
+            // Arrange
+            var dispositivoDto = new Fixture().Create<DispositivoDto>();
+
+            var dispositivo = new Fixture().Create<Dispositivo>();
+
+            var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
+
+            var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
+
+            // Act
+            dispositivoRepositoryMock.Setup(x => x.VerificaDispositivoExistePorIp(It.IsAny<string>()).Result)
+                .Returns(true);
+
+            var resultado = await dispositivoService.InserirDispositivo(dispositivoDto);
+
+            //Assert
+            resultado.Status.ShouldBe(false);
+            resultado.Modelo.ShouldBe(false);
+            resultado.Mensagem.ShouldBe("Esse IP já está cadastrado.");
+
+            dispositivoRepositoryMock.Verify(x => x.VerificaDispositivoExistePorIp(It.IsAny<string>()), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.InserirDispositivo(It.IsAny<Dispositivo>()), Times.Never);
+        }
     }
 }

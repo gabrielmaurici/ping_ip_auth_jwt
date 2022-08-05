@@ -17,6 +17,7 @@ namespace Ping.Ip.Testes.Entidade
             dispositivo = dispositivo.AdicionaDispositivo("Iphone", "Celular", "192.168.0.116");
 
             // Assert
+            dispositivo.Id.ShouldBe(dispositivo.Id);
             dispositivo.Nome.ShouldBe("Iphone");
             dispositivo.TipoDispositivo.ShouldBe("Celular");
             dispositivo.Ip.ShouldBe("192.168.0.116");
