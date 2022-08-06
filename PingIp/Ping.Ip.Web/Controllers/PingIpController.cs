@@ -81,6 +81,8 @@ namespace Ping.Ip.Web.Controllers
         {
             try
             {
+                if (id == 0) return BadRequest("Id é obrigatório");
+
                 var retorno = await _dispositivoService.DeletarDispositivo(id);
 
                 if (retorno.Status)
