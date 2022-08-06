@@ -29,7 +29,7 @@ namespace Ping.Ip.Web.Controllers
                 if(retorno.Status)
                     return Ok(retorno.Mensagem);
 
-                return Conflict(retorno.Mensagem);
+                return BadRequest(retorno.Mensagem);
             }
             catch (Exception ex)
             {
