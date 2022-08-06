@@ -38,7 +38,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 builder.Services.AddControllers();
-builder.Services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<DispositivoDtoValidation>());
+builder.Services.AddFluentValidation(config => config
+    .RegisterValidatorsFromAssemblyContaining<DispositivoDtoValidation>()
+    .RegisterValidatorsFromAssemblyContaining<AtualizaDispositivoDtoValidation>()
+);
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(
     builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
