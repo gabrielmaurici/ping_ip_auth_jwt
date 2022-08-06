@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Ping.Ip.App.Service;
 using Ping.Ip.Domain;
 using Ping.Ip.Domain.Service;
+using Ping.Ip.Domain.Validations;
 using Ping.Ip.Infra.Repository;
 using System.Text;
 
@@ -35,6 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<DispositivoDtoValidation>());
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(
     builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
