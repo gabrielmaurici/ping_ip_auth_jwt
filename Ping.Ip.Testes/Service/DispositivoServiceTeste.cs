@@ -17,8 +17,6 @@ namespace Ping.Ip.Testes.Service
             // Arrange
             var dispositivoDto = new Fixture().Create<DispositivoDto>();
 
-            var dispositivo = new Fixture().Create<Dispositivo>();
-
             var dispositivoRepositoryMock = new Mock<IDispositivoRepository>();
 
             var dispositivoService = new DispositivoService(dispositivoRepositoryMock.Object);
@@ -31,12 +29,12 @@ namespace Ping.Ip.Testes.Service
             resultado.Modelo.ShouldBe(true);
             resultado.Mensagem.ShouldBe("Dispositivo cadastrado com sucesso.");
 
-            dispositivoRepositoryMock.Verify(x => x.VerificaDispositivoExistePorIp(dispositivoDto.Ip), Times.Once);
+            dispositivoRepositoryMock.Verify(x => x.VerificaDispositivoExistePorIp(It.IsAny<string>()), Times.Once);
             dispositivoRepositoryMock.Verify(x => x.InserirDispositivo(It.IsAny<Dispositivo>()), Times.Once);
         }
 
         [Fact(DisplayName = "Insere um dispositivo com IP já cadastrado e retorna erro com mensagem")]
-        public async void DispositivoComIpJaCadastradp_ChamaServicoInserir_RetornaModeloGenericoDeErroComMensagem()
+        public async void DispositivoComIpJaCadastrado_ChamaServicoInserir_RetornaModeloGenericoDeErroComMensagem()
         {
             // Arrange
             var dispositivoDto = new Fixture().Create<DispositivoDto>();
