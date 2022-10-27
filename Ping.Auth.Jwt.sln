@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Domain", "PingIp\Pi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{98279500-DF57-496E-8F19-238970AE46B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.Testes", "Ping.Ip.Testes\Ping.Ip.Testes.csproj", "{E1796930-12DE-4CDB-B715-63F5B3B67CCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ping.Ip.Testes", "Ping.Ip.Testes\Ping.Ip.Testes.csproj", "{E1796930-12DE-4CDB-B715-63F5B3B67CCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ping.Ip.GraphQl.Api", "Ping.Ip.GraphQl.Api\Ping.Ip.GraphQl.Api.csproj", "{39B270D3-1F66-4456-8796-DBFAEC262FA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1796930-12DE-4CDB-B715-63F5B3B67CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B270D3-1F66-4456-8796-DBFAEC262FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B270D3-1F66-4456-8796-DBFAEC262FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B270D3-1F66-4456-8796-DBFAEC262FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B270D3-1F66-4456-8796-DBFAEC262FA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{98633F83-0C9B-435A-A615-EC4F87C0EC18} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{D7A99ED7-0752-4F97-A4A5-FBA886A5AE03} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 		{E1796930-12DE-4CDB-B715-63F5B3B67CCD} = {98279500-DF57-496E-8F19-238970AE46B7}
+		{39B270D3-1F66-4456-8796-DBFAEC262FA7} = {5AC04D72-43FC-4386-9582-6EE65673D096}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F917BFF1-4467-42AE-84EF-49068A1CCDDD}

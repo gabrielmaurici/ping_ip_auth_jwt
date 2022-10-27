@@ -9,7 +9,7 @@ namespace Ping.Ip.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class PingIpController : ControllerBase
     {
         private readonly IDispositivoService _dispositivoService;
